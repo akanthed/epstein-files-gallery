@@ -1,7 +1,7 @@
 """
-AI-Assisted Image Analysis Script
+AI-Assisted Image Analysis Script (v2 - DNN Face Detector)
 Analyzes images offline for:
-- Face detection (OpenCV)
+- Face detection (OpenCV DNN - more accurate than Haar cascades)
 - Text detection (EasyOCR)
 - Scene classification (basic heuristics)
 
@@ -10,8 +10,8 @@ Results are stored in the manifest for fast runtime filtering.
 
 import json
 import os
+import urllib.request
 from pathlib import Path
-from concurrent.futures import ProcessPoolExecutor, as_completed
 import cv2
 import numpy as np
 
@@ -32,10 +32,39 @@ PROCESSED_DIR = WEB_PUBLIC / "processed"
 MANIFEST_PATH = PROCESSED_DIR / "images.json"
 OUTPUT_PATH = PROCESSED_DIR / "images_analyzed.json"
 
-# OpenCV face detector
-FACE_CASCADE = cv2.CascadeClassifier(
-    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml'
-)
+# DNN Face Detector paths
+MODEL_DIR = SCRIPT_DIR / "models"
+PROTOTXT_PATH = MODEL_DIR / "deploy.prototxt"
+CAFFEMODEL_PATH = MODEL_DIR / "res10_300x300_ssd_iter_140000.caffemodel"
+
+# DNN Model URLs (OpenCV's pre-trained face detector)
+PROTOTXT_URL = "https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/deploy.prototxt"
+CAFFEMODEL_URL = "https://github.com/opencv/opencv_3rdparty/raw/dnn_samples_face_detector_20170830/res10_300x300_ssd_iter_140000.caffemodel"
+
+# Global face detector
+face_net = None
+
+def download_model_files():
+    """Download DNN model files if not present."""
+    MODEL_DIR.mkdir(exist_ok=True)
+    
+    if not PROTOTXT_PATH.exists():
+        print("📥 Downloading face detection model (prototxt)...")
+        urllib.request.urlretrieve(PROTOTXT_URL, PROTOTXT_PATH)
+    
+    if not CAFFEMODEL_PATH.exists():
+        print("📥 Downloading face detection model (caffemodel ~10MB)...")
+        urllib.request.urlretrieve(CAFFEMODEL_URL, CAFFEMODEL_PATH)
+    
+    print("✅ Model files ready")
+
+def get_face_detector():
+    """Get or initialize the DNN face detector."""
+    global face_net
+    if face_net is None:
+        download_model_files()
+        face_net = cv2.dnn.readNetFromCaffe(str(PROTOTXT_PATH), str(CAFFEMODEL_PATH))
+    return face_net
 
 # Initialize OCR reader (lazy load)
 ocr_reader = None
@@ -48,20 +77,40 @@ def get_ocr_reader():
     return ocr_reader
 
 
-def detect_faces(img_path: str) -> int:
-    """Detect number of faces in image using OpenCV."""
+def detect_faces_dnn(img_path: str, confidence_threshold: float = 0.5) -> int:
+    """
+    Detect faces using OpenCV's DNN-based face detector.
+    Much more accurate than Haar cascades, fewer false positives.
+    """
     try:
         img = cv2.imread(img_path)
         if img is None:
             return 0
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = FACE_CASCADE.detectMultiScale(
-            gray,
-            scaleFactor=1.1,
-            minNeighbors=5,
-            minSize=(30, 30)
+        
+        (h, w) = img.shape[:2]
+        
+        # Create blob from image
+        blob = cv2.dnn.blobFromImage(
+            cv2.resize(img, (300, 300)), 
+            1.0, 
+            (300, 300), 
+            (104.0, 177.0, 123.0)
         )
-        return len(faces)
+        
+        # Pass through network
+        net = get_face_detector()
+        net.setInput(blob)
+        detections = net.forward()
+        
+        # Count faces with confidence above threshold
+        face_count = 0
+        for i in range(detections.shape[2]):
+            confidence = detections[0, 0, i, 2]
+            if confidence > confidence_threshold:
+                face_count += 1
+        
+        return face_count
+        
     except Exception as e:
         print(f"  ⚠️ Face detection error: {e}")
         return 0
@@ -144,11 +193,13 @@ def classify_scene(img_path: str, face_count: int, has_text: bool) -> list[str]:
             tags.append("people")
             if face_count >= 3:
                 tags.append("group")
+            if face_count == 1:
+                tags.append("solo")
         
         if has_text:
             tags.append("documents")
         
-        # Size-based tags (for thumbnails vs full images)
+        # Size-based tags
         pixels = width * height
         if pixels > 2000000:  # > 2MP
             tags.append("high-res")
@@ -175,8 +226,8 @@ def analyze_image(image_data: dict) -> dict:
         print(f"  ⚠️ Image not found: {img_path}")
         return {**image_data, "ai": {"error": "not_found"}}
     
-    # Run analysis
-    face_count = detect_faces(img_path)
+    # Run analysis with DNN face detector
+    face_count = detect_faces_dnn(img_path, confidence_threshold=0.6)
     text_result = detect_text(img_path) if HAS_OCR else {"has_text": False, "text_confidence": 0, "text_sample": ""}
     tags = classify_scene(img_path, face_count, text_result.get("has_text", False))
     
@@ -194,7 +245,7 @@ def analyze_image(image_data: dict) -> dict:
 
 def main():
     print("=" * 60)
-    print("🤖 AI-Assisted Image Analysis")
+    print("🤖 AI-Assisted Image Analysis (v2 - DNN Face Detector)")
     print("=" * 60)
     
     # Load existing manifest
@@ -212,6 +263,10 @@ def main():
     if not images:
         print("❌ No images in manifest")
         return
+    
+    # Initialize face detector
+    print("🧠 Loading DNN face detector...")
+    get_face_detector()
     
     # Analyze images
     analyzed_images = []
@@ -245,7 +300,6 @@ def main():
     manifest["ai_stats"] = ai_stats
     
     # Save enhanced manifest
-    # First to a new file (safe)
     with open(OUTPUT_PATH, 'w') as f:
         json.dump(manifest, f, indent=2)
     

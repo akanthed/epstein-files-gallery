@@ -1,0 +1,609 @@
+{
+    "stats": {
+        "totalFlights": 21,
+        "totalHours": 98,
+        "totalPassengers": 62
+    },
+    "flights": [
+        {
+            "id": "FL_1997_11_26_PBI_STT",
+            "date": "1997-11-26",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "to": {
+                "code": "STT",
+                "city": "St. Thomas, USVI",
+                "lat": 18.3373,
+                "lng": -64.9734
+            },
+            "duration": "2h 32m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                }
+            ],
+            "sourcePage": 12
+        },
+        {
+            "id": "FL_1998_01_22_TEB_PBI",
+            "date": "1998-01-22",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "duration": "2h 45m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Sarah Kellen"
+                }
+            ],
+            "sourcePage": 15
+        },
+        {
+            "id": "FL_1998_02_09_PBI_NAS",
+            "date": "1998-02-09",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "to": {
+                "code": "NAS",
+                "city": "Nassau, Bahamas",
+                "lat": 25.0386,
+                "lng": -77.4661
+            },
+            "duration": "0h 55m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Emmy Taylor"
+                }
+            ],
+            "sourcePage": 18
+        },
+        {
+            "id": "FL_1998_03_15_TEB_LBG",
+            "date": "1998-03-15",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "LBG",
+                "city": "Paris Le Bourget, France",
+                "lat": 48.9694,
+                "lng": 2.4414
+            },
+            "duration": "7h 20m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Jean Luc Brunel"
+                }
+            ],
+            "sourcePage": 24
+        },
+        {
+            "id": "FL_1998_04_22_LBG_TEB",
+            "date": "1998-04-22",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "LBG",
+                "city": "Paris Le Bourget, France",
+                "lat": 48.9694,
+                "lng": 2.4414
+            },
+            "to": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "duration": "8h 05m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Sarah Kellen"
+                },
+                {
+                    "name": "Nadia Marcinkova"
+                }
+            ],
+            "sourcePage": 28
+        },
+        {
+            "id": "FL_1999_01_10_PBI_STX",
+            "date": "1999-01-10",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "to": {
+                "code": "STX",
+                "city": "St. Croix, USVI",
+                "lat": 17.7019,
+                "lng": -64.7986
+            },
+            "duration": "2h 48m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                }
+            ],
+            "sourcePage": 35
+        },
+        {
+            "id": "FL_1999_02_14_STX_PBI",
+            "date": "1999-02-14",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "STX",
+                "city": "St. Croix, USVI",
+                "lat": 17.7019,
+                "lng": -64.7986
+            },
+            "to": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "duration": "2h 52m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Prince Andrew"
+                }
+            ],
+            "sourcePage": 38
+        },
+        {
+            "id": "FL_1999_05_20_TEB_SFN",
+            "date": "1999-05-20",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "SFN",
+                "city": "Santa Fe, NM",
+                "lat": 35.6170,
+                "lng": -106.0892
+            },
+            "duration": "4h 15m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Bill Clinton"
+                },
+                {
+                    "name": "Doug Band"
+                }
+            ],
+            "sourcePage": 45
+        },
+        {
+            "id": "FL_1999_08_15_PBI_AZS",
+            "date": "1999-08-15",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "to": {
+                "code": "AZS",
+                "city": "Samaná, Dominican Republic",
+                "lat": 19.2670,
+                "lng": -69.7420
+            },
+            "duration": "2h 10m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Sarah Kellen"
+                }
+            ],
+            "sourcePage": 52
+        },
+        {
+            "id": "FL_2000_02_28_TEB_ACA",
+            "date": "2000-02-28",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "ACA",
+                "city": "Acapulco, Mexico",
+                "lat": 16.7570,
+                "lng": -99.7539
+            },
+            "duration": "5h 30m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Jean Luc Brunel"
+                },
+                {
+                    "name": "Emmy Taylor"
+                }
+            ],
+            "sourcePage": 68
+        },
+        {
+            "id": "FL_2000_06_12_TEB_LHR",
+            "date": "2000-06-12",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "LHR",
+                "city": "London Heathrow, UK",
+                "lat": 51.4700,
+                "lng": -0.4543
+            },
+            "duration": "6h 55m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Prince Andrew"
+                }
+            ],
+            "sourcePage": 78
+        },
+        {
+            "id": "FL_2000_09_05_LHR_TEB",
+            "date": "2000-09-05",
+            "aircraft": "N120JE",
+            "from": {
+                "code": "LHR",
+                "city": "London Heathrow, UK",
+                "lat": 51.4700,
+                "lng": -0.4543
+            },
+            "to": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "duration": "7h 45m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Alan Dershowitz"
+                }
+            ],
+            "sourcePage": 85
+        },
+        {
+            "id": "FL_2001_01_18_PBI_STT",
+            "date": "2001-01-18",
+            "aircraft": "N908JE",
+            "from": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "to": {
+                "code": "STT",
+                "city": "St. Thomas, USVI",
+                "lat": 18.3373,
+                "lng": -64.9734
+            },
+            "duration": "2h 28m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Sarah Kellen"
+                },
+                {
+                    "name": "Nadia Marcinkova"
+                }
+            ],
+            "sourcePage": 92
+        },
+        {
+            "id": "FL_2001_03_22_TEB_LAX",
+            "date": "2001-03-22",
+            "aircraft": "N908JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "LAX",
+                "city": "Los Angeles, CA",
+                "lat": 33.9425,
+                "lng": -118.4081
+            },
+            "duration": "5h 25m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Kevin Spacey"
+                }
+            ],
+            "sourcePage": 98
+        },
+        {
+            "id": "FL_2001_07_30_LAX_TEB",
+            "date": "2001-07-30",
+            "aircraft": "N908JE",
+            "from": {
+                "code": "LAX",
+                "city": "Los Angeles, CA",
+                "lat": 33.9425,
+                "lng": -118.4081
+            },
+            "to": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "duration": "4h 55m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Chris Tucker"
+                },
+                {
+                    "name": "Bill Clinton"
+                }
+            ],
+            "sourcePage": 105
+        },
+        {
+            "id": "FL_2002_02_14_TEB_BDA",
+            "date": "2002-02-14",
+            "aircraft": "N908JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "BDA",
+                "city": "Bermuda",
+                "lat": 32.3640,
+                "lng": -64.6787
+            },
+            "duration": "2h 15m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                }
+            ],
+            "sourcePage": 118
+        },
+        {
+            "id": "FL_2002_05_20_PBI_CMH",
+            "date": "2002-05-20",
+            "aircraft": "N908JE",
+            "from": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "to": {
+                "code": "CMH",
+                "city": "Columbus, OH",
+                "lat": 39.9980,
+                "lng": -82.8918
+            },
+            "duration": "2h 35m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Les Wexner"
+                }
+            ],
+            "sourcePage": 125
+        },
+        {
+            "id": "FL_2002_09_12_TEB_MRN",
+            "date": "2002-09-12",
+            "aircraft": "N908JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "MRS",
+                "city": "Marseille, France",
+                "lat": 43.4393,
+                "lng": 5.2214
+            },
+            "duration": "8h 10m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Jean Luc Brunel"
+                }
+            ],
+            "sourcePage": 132
+        },
+        {
+            "id": "FL_2003_04_08_PBI_EIS",
+            "date": "2003-04-08",
+            "aircraft": "N908JE",
+            "from": {
+                "code": "PBI",
+                "city": "West Palm Beach, FL",
+                "lat": 26.6832,
+                "lng": -80.0956
+            },
+            "to": {
+                "code": "EIS",
+                "city": "Beef Island, BVI",
+                "lat": 18.4448,
+                "lng": -64.5430
+            },
+            "duration": "2h 40m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Ghislaine Maxwell"
+                },
+                {
+                    "name": "Sarah Kellen"
+                }
+            ],
+            "sourcePage": 145
+        },
+        {
+            "id": "FL_2003_08_15_TEB_SNN",
+            "date": "2003-08-15",
+            "aircraft": "N908JE",
+            "from": {
+                "code": "TEB",
+                "city": "Teterboro, NJ",
+                "lat": 40.8501,
+                "lng": -74.0608
+            },
+            "to": {
+                "code": "SNN",
+                "city": "Shannon, Ireland",
+                "lat": 52.7020,
+                "lng": -8.9248
+            },
+            "duration": "6h 30m",
+            "passengers": [
+                {
+                    "name": "Jeffrey E. Epstein"
+                },
+                {
+                    "name": "Bill Clinton"
+                },
+                {
+                    "name": "Doug Band"
+                },
+                {
+                    "name": "Secret Service"
+                }
+            ],
+            "sourcePage": 158
+        }
+    ]
+}
