@@ -4,6 +4,7 @@ import { useEffect, useCallback, useState, useRef } from 'react';
 import Image from 'next/image';
 import { X, ZoomIn, ZoomOut, Download, ChevronLeft, ChevronRight, Info } from 'lucide-react';
 import { ImageMeta } from '@/lib/types';
+import { getImageUrl } from '@/lib/utils';
 
 interface ImageModalProps {
     image: ImageMeta | null;
@@ -123,7 +124,7 @@ export function ImageModal({ image, index, total, contextImages = [], onClose, o
                     </div>
 
                     <a
-                        href={image.src}
+                        href={getImageUrl(image.src)}
                         download
                         className="p-2 hover:bg-white/10 rounded-full text-white/60 hover:text-white transition"
                     >
@@ -189,7 +190,7 @@ export function ImageModal({ image, index, total, contextImages = [], onClose, o
                     }}
                 >
                     <Image
-                        src={image.src}
+                        src={getImageUrl(image.src)}
                         alt={`Image ${index + 1}`}
                         width={image.width}
                         height={image.height}
@@ -213,12 +214,12 @@ export function ImageModal({ image, index, total, contextImages = [], onClose, o
                             key={img.id}
                             onClick={() => onJumpTo && onJumpTo(absoluteIndex)}
                             className={`relative h-10 w-7 md:h-16 md:w-12 flex-shrink-0 rounded overflow-hidden border transition-all duration-200 ${isActive
-                                    ? 'border-white scale-110 shadow-lg z-10'
-                                    : 'border-white/20 opacity-50 hover:opacity-100 active:opacity-100 hover:scale-105 hover:border-white/50'
+                                ? 'border-white scale-110 shadow-lg z-10'
+                                : 'border-white/20 opacity-50 hover:opacity-100 active:opacity-100 hover:scale-105 hover:border-white/50'
                                 }`}
                         >
                             <img
-                                src={img.thumb}
+                                src={getImageUrl(img.thumb)}
                                 alt=""
                                 loading="lazy"
                                 decoding="async"

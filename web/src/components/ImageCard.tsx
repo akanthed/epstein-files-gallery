@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ImageMeta } from '@/lib/types';
+import { getImageUrl } from '@/lib/utils';
 import { Maximize2 } from 'lucide-react';
 
 interface ImageCardProps {
@@ -21,7 +22,7 @@ export function ImageCard({ image, onClick }: ImageCardProps) {
             <div className={`relative w-full ${isLoading ? 'animate-pulse min-h-[200px] bg-zinc-700' : ''}`}>
                 {/* Native img for maximum performance */}
                 <img
-                    src={image.thumb}
+                    src={getImageUrl(image.thumb)}
                     alt=""
                     loading="lazy"
                     decoding="async"
