@@ -47,6 +47,9 @@ export function FlightGlobe() {
 
             // Enable zoom explicitly to ensure it captures events
             controls.enableZoom = true;
+            // Limit zoom to prevent viewing blurry textures at ground level
+            controls.minDistance = 150; // Minimum distance from center (earth radius ~100)
+            controls.maxDistance = 400;
         }
     }, [globeEl.current]);
 
@@ -157,11 +160,33 @@ export function FlightGlobe() {
                         <div className="border-l-2 border-slate-700 pl-3 ml-1 space-y-1">
                             <div>
                                 <span className="text-zinc-500 text-xs">FROM</span>
-                                <div className="text-zinc-200">{hoveredFlight.from.name}</div>
+                                <div className="text-zinc-200 flex items-center gap-2">
+                                    {hoveredFlight.from.name}
+                                    <a
+                                        href={`https://www.google.com/maps/search/${encodeURIComponent(hoveredFlight.from.name)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-xs text-blue-400 hover:text-blue-300 underline"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        Map
+                                    </a>
+                                </div>
                             </div>
                             <div>
                                 <span className="text-zinc-500 text-xs">TO</span>
-                                <div className="text-zinc-200">{hoveredFlight.to.name}</div>
+                                <div className="text-zinc-200 flex items-center gap-2">
+                                    {hoveredFlight.to.name}
+                                    <a
+                                        href={`https://www.google.com/maps/search/${encodeURIComponent(hoveredFlight.to.name)}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-xs text-blue-400 hover:text-blue-300 underline"
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        Map
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
@@ -181,6 +206,7 @@ export function FlightGlobe() {
                     </div>
                 </div>
             )}
+
 
             {/* Legend / Title */}
             <div className="absolute bottom-6 left-6 pointer-events-none">
