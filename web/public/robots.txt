@@ -1,6 +1,6 @@
-# Allow all crawlers
+# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: https://YOUR_DOMAIN.vercel.app/sitemap.xml
+# Sitemap
+Sitemap: https://akanthed.github.io/epstein-files-gallery/sitemap.xml

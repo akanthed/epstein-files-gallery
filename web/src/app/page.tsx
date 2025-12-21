@@ -6,6 +6,9 @@ import { MasonryGrid } from '@/components/MasonryGrid';
 import { ImageModal } from '@/components/ImageModal';
 import { Loader2 } from 'lucide-react';
 
+// Base path for GitHub Pages deployment
+const BASE_PATH = process.env.NODE_ENV === 'production' ? '/epstein-files-gallery' : '';
+
 const BATCH_SIZE = 40;
 
 export default function Home() {
@@ -16,7 +19,7 @@ export default function Home() {
   const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch('/processed/images.json')
+    fetch(`${BASE_PATH}/processed/images.json`)
       .then(res => res.json())
       .then((data: GalleryManifest) => {
         setManifest(data);

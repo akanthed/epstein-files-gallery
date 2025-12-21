@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Epstein Files Image Gallery | Official Court Documents & Photos",
   description: "Browse 5,600+ images from the Jeffrey Epstein case files. High-resolution scans of official court documents, photos, and evidence released by the U.S. Department of Justice. Searchable, fast, and free.",
-  keywords: ["Epstein files", "Epstein documents", "Jeffrey Epstein", "Epstein court documents", "Epstein photos", "Epstein evidence", "DOJ Epstein release", "Epstein case files"],
+  keywords: ["Epstein files", "Epstein documents", "Jeffrey Epstein", "Epstein court documents", "Epstein photos", "Epstein evidence", "DOJ Epstein release", "Epstein case files", "Epstein island", "Epstein list"],
   authors: [{ name: "Public Records Archive" }],
   openGraph: {
     title: "Epstein Files Image Gallery | 5,600+ Court Documents & Photos",
@@ -24,6 +23,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Epstein Files Gallery",
+    url: "https://akanthed.github.io/epstein-files-gallery/",
   },
   twitter: {
     card: "summary_large_image",
@@ -38,6 +38,27 @@ export const metadata: Metadata = {
       follow: true,
     },
   },
+  alternates: {
+    canonical: "https://akanthed.github.io/epstein-files-gallery/",
+  },
+};
+
+// JSON-LD Structured Data for SEO
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Epstein Files Image Gallery",
+  "description": "Browse 5,600+ images from the Jeffrey Epstein case files. Official court documents and photos from the U.S. Department of Justice.",
+  "url": "https://akanthed.github.io/epstein-files-gallery/",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Public Records Archive"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://akanthed.github.io/epstein-files-gallery/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
 };
 
 export default function RootLayout({
@@ -47,11 +68,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <Analytics />
       </body>
     </html>
   );
