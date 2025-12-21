@@ -1,8 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Required for Cloudflare Pages deployment
+  // Required for static export
   output: 'export',
+
+  // GitHub Pages serves from /repo-name/
+  basePath: '/epstein-files-gallery',
+  assetPrefix: '/epstein-files-gallery/',
 
   // Disable image optimization for static export
   images: {
