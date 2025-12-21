@@ -1,23 +1,33 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { GalleryManifest, ImageMeta } from '@/lib/types';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { GalleryManifest, ImageMeta, FilterType } from '@/lib/types';
 import { MasonryGrid } from '@/components/MasonryGrid';
 import { ImageModal } from '@/components/ImageModal';
 import { FlightGlobe } from '@/components/FlightGlobe';
-import { Loader2, Files, Globe2 } from 'lucide-react';
+import { Loader2, Files, Globe2, Users, FileText, UsersRound, Image, Sparkles } from 'lucide-react';
 import { BASE_PATH } from '@/lib/utils';
 
 const BATCH_SIZE = 40;
 
 type ViewMode = 'archive' | 'globe';
 
+// Filter configuration
+const FILTERS: { type: FilterType; label: string; icon: React.ReactNode; description: string }[] = [
+  { type: 'all', label: 'All', icon: <Image className="w-4 h-4" />, description: 'Show all images' },
+  { type: 'people', label: 'People', icon: <Users className="w-4 h-4" />, description: 'Images with faces' },
+  { type: 'documents', label: 'Documents', icon: <FileText className="w-4 h-4" />, description: 'Images with text' },
+  { type: 'group', label: 'Groups', icon: <UsersRound className="w-4 h-4" />, description: '3+ people' },
+  { type: 'high-res', label: 'High-Res', icon: <Sparkles className="w-4 h-4" />, description: 'Detailed images' },
+];
+
 export default function Home() {
   const [viewMode, setViewMode] = useState<ViewMode>('archive');
   const [manifest, setManifest] = useState<GalleryManifest | null>(null);
-  const [displayedImages, setDisplayedImages] = useState<ImageMeta[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+  const [displayCount, setDisplayCount] = useState(BATCH_SIZE);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -25,7 +35,6 @@ export default function Home() {
       .then(res => res.json())
       .then((data: GalleryManifest) => {
         setManifest(data);
-        setDisplayedImages(data.images.slice(0, BATCH_SIZE));
         setLoading(false);
       })
       .catch(err => {
@@ -34,18 +43,48 @@ export default function Home() {
       });
   }, []);
 
-  const loadMore = useCallback(() => {
-    if (!manifest) return;
+  // Filter images based on AI metadata
+  const filteredImages = useMemo(() => {
+    if (!manifest) return [];
 
-    setDisplayedImages(prev => {
-      const currentCount = prev.length;
-      if (currentCount >= manifest.images.length) return prev;
-      return [
-        ...prev,
-        ...manifest.images.slice(currentCount, currentCount + BATCH_SIZE)
-      ];
+    const images = manifest.images;
+
+    if (activeFilter === 'all') return images;
+
+    return images.filter(img => {
+      const ai = img.ai;
+      if (!ai) return false; // No AI data = excluded from filters
+
+      switch (activeFilter) {
+        case 'people':
+          return ai.faces > 0;
+        case 'documents':
+          return ai.has_text;
+        case 'group':
+          return ai.faces >= 3;
+        case 'high-res':
+          return ai.tags?.includes('high-res') || ai.tags?.includes('detailed');
+        case 'grayscale':
+          return ai.tags?.includes('grayscale');
+        default:
+          return true;
+      }
     });
-  }, [manifest]);
+  }, [manifest, activeFilter]);
+
+  // Displayed images (paginated)
+  const displayedImages = useMemo(() => {
+    return filteredImages.slice(0, displayCount);
+  }, [filteredImages, displayCount]);
+
+  const loadMore = useCallback(() => {
+    setDisplayCount(prev => Math.min(prev + BATCH_SIZE, filteredImages.length));
+  }, [filteredImages.length]);
+
+  // Reset pagination when filter changes
+  useEffect(() => {
+    setDisplayCount(BATCH_SIZE);
+  }, [activeFilter]);
 
   useEffect(() => {
     if (viewMode !== 'archive') return; // Only observe in archive mode
@@ -108,25 +147,95 @@ export default function Home() {
               </div>
             ) : (
               <>
-                <div className="flex justify-between items-center mb-6 text-sm text-zinc-500 font-mono uppercase tracking-wider">
-                  <div>
-                    <span className="text-zinc-300">{manifest?.stats.totalImages.toLocaleString()}</span> Images
+                {/* Stats Row */}
+                <div className="flex flex-wrap justify-between items-center gap-4 mb-4 text-sm text-zinc-500 font-mono uppercase tracking-wider">
+                  <div className="flex gap-4">
+                    <div>
+                      <span className="text-zinc-300">{filteredImages.length.toLocaleString()}</span>
+                      {activeFilter !== 'all' && <span className="text-zinc-500"> / {manifest?.stats.totalImages.toLocaleString()}</span>}
+                      {' '}Images
+                    </div>
+                    <div>
+                      <span className="text-zinc-300">{manifest?.stats.totalZips}</span> Archives
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-zinc-300">{manifest?.stats.totalZips}</span> Archives
-                  </div>
+
+                  {/* AI Stats Badge (if available) */}
+                  {manifest?.ai_stats && (
+                    <div className="flex items-center gap-2 text-xs normal-case tracking-normal">
+                      <span className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded-full border border-emerald-500/20">
+                        🤖 AI Analyzed
+                      </span>
+                      <span className="text-zinc-500">
+                        {manifest.ai_stats.images_with_faces} with faces • {manifest.ai_stats.images_with_text} with text
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* AI Filter Buttons */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {FILTERS.map(filter => {
+                    // Count for this filter
+                    let count = 0;
+                    if (filter.type === 'all') {
+                      count = manifest?.stats.totalImages || 0;
+                    } else if (manifest?.ai_stats) {
+                      // Use AI stats for quick counts
+                      switch (filter.type) {
+                        case 'people':
+                          count = manifest.ai_stats.images_with_faces;
+                          break;
+                        case 'documents':
+                          count = manifest.ai_stats.images_with_text;
+                          break;
+                        default:
+                          count = manifest.ai_stats.tag_distribution?.[filter.type] || 0;
+                      }
+                    }
+
+                    const isActive = activeFilter === filter.type;
+                    const hasData = filter.type === 'all' || count > 0;
+
+                    return (
+                      <button
+                        key={filter.type}
+                        onClick={() => setActiveFilter(filter.type)}
+                        disabled={!hasData}
+                        title={filter.description}
+                        className={`
+                          flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
+                          ${isActive
+                            ? 'bg-blue-600/20 text-blue-300 border border-blue-500/30 shadow-sm'
+                            : hasData
+                              ? 'bg-zinc-800/50 text-zinc-400 border border-white/5 hover:bg-zinc-800 hover:text-white'
+                              : 'bg-zinc-900/50 text-zinc-600 border border-white/5 cursor-not-allowed opacity-50'
+                          }
+                        `}
+                      >
+                        {filter.icon}
+                        {filter.label}
+                        {hasData && filter.type !== 'all' && (
+                          <span className={`text-xs px-1.5 py-0.5 rounded ${isActive ? 'bg-blue-500/20' : 'bg-white/5'}`}>
+                            {count.toLocaleString()}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
 
                 <MasonryGrid
                   images={displayedImages}
                   onImageClick={(img) => {
-                    const idx = manifest?.images.findIndex(i => i.id === img.id);
-                    if (idx !== undefined && idx !== -1) setSelectedImageIndex(idx);
+                    // Find in filtered images for correct context
+                    const idx = filteredImages.findIndex(i => i.id === img.id);
+                    if (idx !== -1) setSelectedImageIndex(idx);
                   }}
                 />
 
                 <div ref={observerTarget} className="h-20 flex justify-center items-center">
-                  {displayedImages.length < (manifest?.images.length || 0) && (
+                  {displayedImages.length < filteredImages.length && (
                     <Loader2 className="w-6 h-6 animate-spin text-zinc-600" />
                   )}
                 </div>
@@ -151,17 +260,17 @@ export default function Home() {
       </div>
 
       {/* Global Modal */}
-      {selectedImageIndex !== null && manifest && (
+      {selectedImageIndex !== null && filteredImages.length > 0 && (
         <ImageModal
-          image={manifest.images[selectedImageIndex]}
+          image={filteredImages[selectedImageIndex]}
           index={selectedImageIndex}
-          total={manifest.images.length}
-          contextImages={manifest.images.slice(
+          total={filteredImages.length}
+          contextImages={filteredImages.slice(
             Math.max(0, selectedImageIndex - 10),
-            Math.min(manifest.images.length, selectedImageIndex + 11)
+            Math.min(filteredImages.length, selectedImageIndex + 11)
           )}
           onClose={() => setSelectedImageIndex(null)}
-          onNext={() => setSelectedImageIndex(prev => prev !== null && prev < manifest.images.length - 1 ? prev + 1 : prev)}
+          onNext={() => setSelectedImageIndex(prev => prev !== null && prev < filteredImages.length - 1 ? prev + 1 : prev)}
           onPrev={() => setSelectedImageIndex(prev => prev !== null && prev > 0 ? prev - 1 : prev)}
           onJumpTo={(idx) => setSelectedImageIndex(idx)}
         />
