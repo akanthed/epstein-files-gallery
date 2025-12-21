@@ -4,12 +4,16 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { GalleryManifest, ImageMeta } from '@/lib/types';
 import { MasonryGrid } from '@/components/MasonryGrid';
 import { ImageModal } from '@/components/ImageModal';
-import { Loader2 } from 'lucide-react';
+import { FlightGlobe } from '@/components/FlightGlobe';
+import { Loader2, Files, Globe2 } from 'lucide-react';
 import { BASE_PATH } from '@/lib/utils';
 
 const BATCH_SIZE = 40;
 
+type ViewMode = 'archive' | 'globe';
+
 export default function Home() {
+  const [viewMode, setViewMode] = useState<ViewMode>('archive');
   const [manifest, setManifest] = useState<GalleryManifest | null>(null);
   const [displayedImages, setDisplayedImages] = useState<ImageMeta[]>([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
@@ -44,6 +48,8 @@ export default function Home() {
   }, [manifest]);
 
   useEffect(() => {
+    if (viewMode !== 'archive') return; // Only observe in archive mode
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -58,88 +64,109 @@ export default function Home() {
     }
 
     return () => observer.disconnect();
-  }, [loadMore]);
-
-  const handleImageClick = (image: ImageMeta) => {
-    if (!manifest) return;
-    const index = manifest.images.findIndex(img => img.id === image.id);
-    setSelectedImageIndex(index);
-  };
-
-  const selectedImage = selectedImageIndex !== null && manifest
-    ? manifest.images[selectedImageIndex]
-    : null;
-
-  const handleNext = () => {
-    if (selectedImageIndex !== null && manifest && selectedImageIndex < manifest.images.length - 1) {
-      setSelectedImageIndex(selectedImageIndex + 1);
-    }
-  };
-
-  const handlePrev = () => {
-    if (selectedImageIndex !== null && selectedImageIndex > 0) {
-      setSelectedImageIndex(selectedImageIndex - 1);
-    }
-  };
-
-  if (loading && !manifest) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-zinc-50 dark:bg-zinc-950">
-        <Loader2 className="w-8 h-8 animate-spin text-zinc-400" />
-      </div>
-    );
-  }
+  }, [loadMore, viewMode]);
 
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 px-4 py-8 md:px-8">
-      <header className="mb-8 md:mb-12 max-w-7xl mx-auto">
-        <h1 className="text-3xl md:text-5xl font-light text-zinc-900 dark:text-zinc-50 mb-2 tracking-tight">
-          Epstein Files Gallery
-        </h1>
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-6">
-          Official court documents and photos sourced from <a href="https://www.justice.gov/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-400 underline transition-colors">U.S. Department of Justice</a>
-        </p>
-        {manifest && (
-          <div className="flex gap-6 text-sm text-zinc-500 font-mono border-t border-zinc-200 dark:border-zinc-800 pt-4">
-            <div className="flex flex-col">
-              <span className="uppercase tracking-wider text-[10px] text-zinc-400">Total Images</span>
-              <span>{manifest.stats.totalImages.toLocaleString()}</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="uppercase tracking-wider text-[10px] text-zinc-400">Sources</span>
-              <span>{manifest.stats.totalZips} Archives</span>
+    <main className="min-h-screen bg-zinc-950 text-zinc-100 p-4 md:p-8">
+
+      {/* Header & Tabs */}
+      <div className="max-w-[1920px] mx-auto mb-8">
+        <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+          <div>
+            <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-2 bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+              Epstein Files Gallery
+            </h1>
+            <p className="text-zinc-400 max-w-2xl">
+              Official court documents and photos sourced from <a href="https://www.justice.gov/" target="_blank" className="underline hover:text-white transition">U.S. Department of Justice</a>
+            </p>
+          </div>
+
+          <div className="flex bg-zinc-900 p-1 rounded-xl border border-white/5">
+            <button
+              onClick={() => setViewMode('archive')}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${viewMode === 'archive' ? 'bg-zinc-800 text-white shadow-sm' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'}`}
+            >
+              <Files className="w-4 h-4" />
+              The Archive
+            </button>
+            <button
+              onClick={() => setViewMode('globe')}
+              className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition-all ${viewMode === 'globe' ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/20 shadow-sm' : 'text-zinc-400 hover:text-white hover:bg-zinc-800/50'}`}
+            >
+              <Globe2 className="w-4 h-4" />
+              Flight Tracker
+            </button>
+          </div>
+        </header>
+
+        {/* Content Area */}
+        {viewMode === 'archive' && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            {loading ? (
+              <div className="flex justify-center py-20">
+                <Loader2 className="w-8 h-8 animate-spin text-zinc-500" />
+              </div>
+            ) : (
+              <>
+                <div className="flex justify-between items-center mb-6 text-sm text-zinc-500 font-mono uppercase tracking-wider">
+                  <div>
+                    <span className="text-zinc-300">{manifest?.stats.totalImages.toLocaleString()}</span> Images
+                  </div>
+                  <div>
+                    <span className="text-zinc-300">{manifest?.stats.totalZips}</span> Archives
+                  </div>
+                </div>
+
+                <MasonryGrid
+                  images={displayedImages}
+                  onImageClick={(img) => {
+                    const idx = manifest?.images.findIndex(i => i.id === img.id);
+                    if (idx !== undefined && idx !== -1) setSelectedImageIndex(idx);
+                  }}
+                />
+
+                <div ref={observerTarget} className="h-20 flex justify-center items-center">
+                  {displayedImages.length < (manifest?.images.length || 0) && (
+                    <Loader2 className="w-6 h-6 animate-spin text-zinc-600" />
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {viewMode === 'globe' && (
+          <div className="animate-in fade-in zoom-in-95 duration-500">
+            <FlightGlobe />
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-zinc-900/50 p-6 rounded-xl border border-white/5">
+                <h3 className="font-medium text-white mb-2">About Flight Data</h3>
+                <p className="text-sm text-zinc-400">
+                  This visualization maps flight logs found in the court documents. Each arc represents a recorded flight. Hover over paths to see passenger details.
+                </p>
+              </div>
             </div>
           </div>
         )}
-      </header>
-
-      <div className="max-w-[1920px] mx-auto min-h-screen">
-        <MasonryGrid images={displayedImages} onImageClick={handleImageClick} />
-
-        <div ref={observerTarget} className="h-32 flex items-center justify-center w-full mt-12">
-          {manifest && displayedImages.length < manifest.images.length && (
-            <Loader2 className="w-6 h-6 animate-spin text-zinc-400" />
-          )}
-        </div>
       </div>
 
-      <ImageModal
-        image={selectedImage}
-        index={selectedImageIndex ?? 0}
-        total={manifest?.images.length ?? 0}
-        contextImages={
-          manifest && selectedImageIndex !== null
-            ? manifest.images.slice(
-              Math.max(0, selectedImageIndex - 10),
-              Math.min(manifest.images.length, selectedImageIndex + 11)
-            )
-            : []
-        }
-        onClose={() => setSelectedImageIndex(null)}
-        onNext={handleNext}
-        onPrev={handlePrev}
-        onJumpTo={(idx) => setSelectedImageIndex(idx)}
-      />
+      {/* Global Modal */}
+      {selectedImageIndex !== null && manifest && (
+        <ImageModal
+          image={manifest.images[selectedImageIndex]}
+          index={selectedImageIndex}
+          total={manifest.images.length}
+          contextImages={manifest.images.slice(
+            Math.max(0, selectedImageIndex - 10),
+            Math.min(manifest.images.length, selectedImageIndex + 11)
+          )}
+          onClose={() => setSelectedImageIndex(null)}
+          onNext={() => setSelectedImageIndex(prev => prev !== null && prev < manifest.images.length - 1 ? prev + 1 : prev)}
+          onPrev={() => setSelectedImageIndex(prev => prev !== null && prev > 0 ? prev - 1 : prev)}
+          onJumpTo={(idx) => setSelectedImageIndex(idx)}
+        />
+      )}
     </main>
   );
 }
+

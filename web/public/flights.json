@@ -1,0 +1,117 @@
+[
+    {
+        "id": "1",
+        "date": "2002-05-18",
+        "aircraft": "N908JE (Boeing 727)",
+        "from": {
+            "lat": 26.715,
+            "lng": -80.053,
+            "name": "Palm Beach, FL (PBI)"
+        },
+        "to": {
+            "lat": 18.337,
+            "lng": -64.972,
+            "name": "St. Thomas, USVI (STT)"
+        },
+        "passengers": [
+            "Jeffrey Epstein",
+            "Ghislaine Maxwell",
+            "Sarah Kellen"
+        ]
+    },
+    {
+        "id": "2",
+        "date": "2002-05-19",
+        "aircraft": "N908JE (Boeing 727)",
+        "from": {
+            "lat": 18.337,
+            "lng": -64.972,
+            "name": "St. Thomas, USVI (STT)"
+        },
+        "to": {
+            "lat": 40.641,
+            "lng": -73.778,
+            "name": "New York, NY (JFK)"
+        },
+        "passengers": [
+            "Jeffrey Epstein",
+            "Ghislaine Maxwell"
+        ]
+    },
+    {
+        "id": "3",
+        "date": "2002-03-12",
+        "aircraft": "N908JE (Boeing 727)",
+        "from": {
+            "lat": 40.788,
+            "lng": -74.128,
+            "name": "Teterboro, NJ (TEB)"
+        },
+        "to": {
+            "lat": 48.690,
+            "lng": 2.441,
+            "name": "Paris, France (LFPB)"
+        },
+        "passengers": [
+            "Jeffrey Epstein",
+            "Jean-Luc Brunel"
+        ]
+    },
+    {
+        "id": "4",
+        "date": "2002-03-22",
+        "aircraft": "N908JE (Boeing 727)",
+        "from": {
+            "lat": 48.690,
+            "lng": 2.441,
+            "name": "Paris, France (LFPB)"
+        },
+        "to": {
+            "lat": 40.788,
+            "lng": -74.128,
+            "name": "Teterboro, NJ (TEB)"
+        },
+        "passengers": [
+            "Jeffrey Epstein",
+            "Virginia Roberts"
+        ]
+    },
+    {
+        "id": "5",
+        "date": "2003-01-05",
+        "aircraft": "N908JE (Boeing 727)",
+        "from": {
+            "lat": 26.715,
+            "lng": -80.053,
+            "name": "Palm Beach, FL (PBI)"
+        },
+        "to": {
+            "lat": 35.040,
+            "lng": -106.609,
+            "name": "Albuquerque, NM (ABQ)"
+        },
+        "passengers": [
+            "Jeffrey Epstein"
+        ]
+    },
+    {
+        "id": "6",
+        "date": "2001-09-24",
+        "aircraft": "N908JE (Boeing 727)",
+        "from": {
+            "lat": 40.788,
+            "lng": -74.128,
+            "name": "Teterboro, NJ (TEB)"
+        },
+        "to": {
+            "lat": 38.648,
+            "lng": -28.028,
+            "name": "Santa Maria, Azores (SMA)"
+        },
+        "passengers": [
+            "Jeffrey Epstein",
+            "Bill Clinton",
+            "Ghislaine Maxwell"
+        ]
+    }
+]
