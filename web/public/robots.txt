@@ -1,6 +1,11 @@
-# https://www.robotstxt.org/robotstxt.html
+# Robots.txt for Epstein Files Gallery
+# Allow all crawlers to index everything
+
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://akanthed.github.io/epstein-files-gallery/sitemap.xml
+# Sitemap location
+Sitemap: https://epsteinfiles.netlify.app/sitemap.xml
+
+# Optimize crawl rate
+Crawl-delay: 1

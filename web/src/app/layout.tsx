@@ -12,23 +12,44 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+// Update this to your Netlify domain
+const SITE_URL = "https://epsteinfiles.netlify.app";
+
 export const metadata: Metadata = {
-  title: "Epstein Files Image Gallery | Official Court Documents & Photos",
-  description: "Browse 5,600+ images from the Jeffrey Epstein case files. High-resolution scans of official court documents, photos, and evidence released by the U.S. Department of Justice. Searchable, fast, and free.",
-  keywords: ["Epstein files", "Epstein documents", "Jeffrey Epstein", "Epstein court documents", "Epstein photos", "Epstein evidence", "DOJ Epstein release", "Epstein case files", "Epstein island", "Epstein list"],
+  title: "Epstein Files Gallery | 5,600+ Official Court Documents & Photos",
+  description: "Browse the complete Jeffrey Epstein case archive. 5,600+ high-resolution images from official DOJ court documents, flight logs, and photos. Free, searchable, and fully transparent. The most comprehensive Epstein files database online.",
+  keywords: [
+    "Epstein files", "Epstein documents", "Jeffrey Epstein", "Epstein court documents",
+    "Epstein photos", "Epstein evidence", "Epstein case files", "Epstein island",
+    "Epstein list", "Epstein flight logs", "Lolita Express", "Ghislaine Maxwell",
+    "Epstein victims", "DOJ Epstein release", "Epstein trial documents",
+    "Epstein client list", "Epstein associates", "Little St. James"
+  ],
   authors: [{ name: "Public Records Archive" }],
+  creator: "Public Records Archive",
+  publisher: "Public Records Archive",
+  metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "Epstein Files Image Gallery | 5,600+ Court Documents & Photos",
-    description: "The complete visual archive of Jeffrey Epstein case files. Browse high-resolution scans from official DOJ releases.",
+    title: "Epstein Files Gallery | 5,600+ Court Documents & Flight Logs",
+    description: "The complete Jeffrey Epstein case archive. Browse official DOJ documents, flight logs, and photos. Free and searchable.",
     type: "website",
     locale: "en_US",
     siteName: "Epstein Files Gallery",
-    url: "https://akanthed.github.io/epstein-files-gallery/",
+    url: SITE_URL,
+    images: [
+      {
+        url: `${SITE_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "Epstein Files Gallery - Official Court Documents",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Epstein Files Image Gallery",
-    description: "Browse 5,600+ images from the Jeffrey Epstein case files. Official court documents & photos from justice.gov.",
+    title: "Epstein Files Gallery | 5,600+ Court Documents",
+    description: "Browse the complete Jeffrey Epstein case archive. Official DOJ documents, flight logs, and photos.",
+    images: [`${SITE_URL}/og-image.png`],
   },
   robots: {
     index: true,
@@ -36,29 +57,51 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   alternates: {
-    canonical: "https://akanthed.github.io/epstein-files-gallery/",
+    canonical: SITE_URL,
   },
+  verification: {
+    google: "google665d90b0f3325bee",
+  },
+  category: "Legal Documents",
 };
 
-// JSON-LD Structured Data for SEO
+// JSON-LD Structured Data for Rich Snippets
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Epstein Files Image Gallery",
-  "description": "Browse 5,600+ images from the Jeffrey Epstein case files. Official court documents and photos from the U.S. Department of Justice.",
-  "url": "https://akanthed.github.io/epstein-files-gallery/",
+  "name": "Epstein Files Gallery",
+  "alternateName": ["Epstein Files", "Epstein Documents Archive", "Jeffrey Epstein Files"],
+  "description": "Browse 5,600+ images from the Jeffrey Epstein case files. Official court documents, flight logs, and photos from the U.S. Department of Justice.",
+  "url": SITE_URL,
   "publisher": {
     "@type": "Organization",
-    "name": "Public Records Archive"
+    "name": "Public Records Archive",
   },
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://akanthed.github.io/epstein-files-gallery/?q={search_term_string}",
+    "target": `${SITE_URL}/?q={search_term_string}`,
     "query-input": "required name=search_term_string"
+  },
+  "about": {
+    "@type": "Thing",
+    "name": "Jeffrey Epstein case",
+    "description": "Legal proceedings and evidence related to Jeffrey Epstein"
   }
+};
+
+// Additional structured data for image gallery
+const galleryJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ImageGallery",
+  "name": "Epstein Files Image Gallery",
+  "description": "5,600+ images from official court documents",
+  "numberOfItems": 5688,
+  "url": SITE_URL,
 };
 
 export default function RootLayout({
@@ -73,6 +116,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(galleryJsonLd) }}
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
