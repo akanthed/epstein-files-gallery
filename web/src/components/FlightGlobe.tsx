@@ -39,12 +39,22 @@ export function FlightGlobe() {
     }, []);
 
     useEffect(() => {
-        // Auto-rotate
+        // Auto-rotate setup
         if (globeEl.current) {
-            globeEl.current.controls().autoRotate = true;
-            globeEl.current.controls().autoRotateSpeed = 0.5;
+            const controls = globeEl.current.controls();
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.5;
+
+            // Enable zoom explicitly to ensure it captures events
+            controls.enableZoom = true;
         }
     }, [globeEl.current]);
+
+    const stopRotation = () => {
+        if (globeEl.current) {
+            globeEl.current.controls().autoRotate = false;
+        }
+    };
 
     const arcsData = useMemo(() => {
         return flights.map(f => ({
@@ -52,7 +62,7 @@ export function FlightGlobe() {
             startLng: f.from.lng,
             endLat: f.to.lat,
             endLng: f.to.lng,
-            color: hoveredFlight === f ? '#60A5FA' : '#3B82F6', // Blue-500 default, Blue-400 hover
+            color: hoveredFlight === f ? '#60A5FA' : '#3B82F6',
             flight: f
         }));
     }, [flights, hoveredFlight]);
@@ -70,8 +80,9 @@ export function FlightGlobe() {
                         lat: loc.lat,
                         lng: loc.lng,
                         name: loc.name,
-                        size: 0.5,
-                        color: '#EF4444' // Red-500
+                        // User feedback: "red dot" hard to click, so make it bigger
+                        size: 0.8,
+                        color: '#EF4444'
                     });
                 }
             });
@@ -80,7 +91,7 @@ export function FlightGlobe() {
     }, [flights]);
 
     return (
-        <div className="relative w-full h-[70vh] min-h-[500px] overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl">
+        <div className="relative w-full h-[70vh] min-h-[500px] overflow-hidden rounded-2xl border border-white/10 bg-black shadow-2xl group">
             <Globe
                 ref={globeEl}
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
@@ -97,13 +108,28 @@ export function FlightGlobe() {
                 pointAltitude={0.01}
                 pointRadius="size"
                 pointsMerge={true}
+                // Stop rotation when user interacts with an arc/point
                 onArcHover={(arc: any) => {
                     setHoveredFlight(arc ? arc.flight : null);
                     document.body.style.cursor = arc ? 'pointer' : 'default';
+                    if (arc) stopRotation();
                 }}
+                onArcClick={() => stopRotation()}
+                onPointHover={(point: any) => {
+                    document.body.style.cursor = point ? 'pointer' : 'default';
+                    if (point) stopRotation();
+                }}
+                onPointClick={() => stopRotation()}
+                // Also stop rotation if user clicks anywhere on the globe (to drag)
+                onGlobeClick={() => stopRotation()}
                 atmosphereColor="#3B82F6"
                 atmosphereAltitude={0.15}
             />
+
+            {/* Interaction Hint */}
+            <div className="absolute top-4 left-4 z-10 bg-black/40 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10 text-xs text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity select-none pointer-events-none">
+                Click to interact • Scroll to zoom
+            </div>
 
             {/* Flight Info Overlay */}
             {hoveredFlight && (
