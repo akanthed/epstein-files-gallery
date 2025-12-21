@@ -1,0 +1,52 @@
+# Source Data (NEVER commit - 2.5GB+)
+/data/
+
+# Processed Images (Large - consider Git LFS or external hosting)
+# Uncomment if using external image hosting:
+# /web/public/processed/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Node.js
+node_modules/
+.next/
+out/
+.vercel/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+dist/
+build/
+*.tsbuildinfo
+
+# OS
+.DS_Store
+*.DS_Store
+Desktop.ini

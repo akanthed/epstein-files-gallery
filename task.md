@@ -1,0 +1,23 @@
+# Task Checklist
+
+- [/] Project Setup <!-- id: 0 -->
+    - [/] Initialize Next.js Project <!-- id: 1 -->
+    - [ ] Set up Tailwind CSS <!-- id: 2 -->
+    - [ ] Configure ESLint and Prettier <!-- id: 3 -->
+- [ ] Data Processing Scripts (Offline) <!-- id: 4 -->
+    - [ ] Create `scripts/extract_images.py` <!-- id: 5 -->
+    - [ ] Implement PDF scanning and conversion (pdf2image) <!-- id: 6 -->
+    - [ ] Implement Image optimization (Pillow) <!-- id: 7 -->
+    - [ ] Implement Thumbnail generation <!-- id: 8 -->
+    - [ ] Generate `processed/images.json` <!-- id: 9 -->
+- [ ] Frontend Implementation <!-- id: 10 -->
+    - [ ] Create basic layout and theme (Dark mode default) <!-- id: 11 -->
+    - [ ] Implement Masonry Grid Component <!-- id: 12 -->
+    - [ ] Implement Image Card with Thumbnail <!-- id: 13 -->
+    - [ ] Create Fullscreen Modal Viewer <!-- id: 14 -->
+    - [ ] Add Zoom, Grid size, and Navigation controls <!-- id: 15 -->
+    - [ ] Implement Infinite Scroll / Virtualization <!-- id: 16 -->
+- [ ] Verification <!-- id: 17 -->
+    - [ ] Test extraction script with sample PDFs <!-- id: 18 -->
+    - [ ] Verify UI performance with generated data <!-- id: 19 -->
+    - [ ] Mobile responsiveness check <!-- id: 20 -->
