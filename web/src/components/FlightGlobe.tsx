@@ -165,7 +165,7 @@ export function FlightGlobe() {
                     arcDashLength={0.4}
                     arcDashGap={4}
                     arcDashInitialGap={() => Math.random() * 5}
-                    arcDashAnimateTime={2000}
+                    arcDashAnimateTime={6000}
                     arcStroke={hoveredFlight ? 1 : 0.5}
                     arcAltitude={0.15}
                     pointsData={pointsData}
@@ -234,14 +234,48 @@ export function FlightGlobe() {
                             />
                         ))}
 
-                        {/* Airport markers */}
-                        {pointsData.map((point, i) => (
-                            <Marker key={i} position={[point.lat, point.lng]}>
-                                <Popup>
-                                    <div className="font-medium">{point.name}</div>
-                                </Popup>
-                            </Marker>
-                        ))}
+                        {/* Airport markers with flight details */}
+                        {pointsData.map((point, i) => {
+                            // Find all flights involving this airport
+                            const relatedFlights = flights.filter(
+                                f => f.from.name === point.name || f.to.name === point.name
+                            );
+                            return (
+                                <Marker key={i} position={[point.lat, point.lng]}>
+                                    <Popup minWidth={280} maxWidth={350}>
+                                        <div className="p-1">
+                                            <h3 className="font-bold text-base mb-2 text-gray-900">{point.name}</h3>
+                                            <div className="text-xs text-gray-500 mb-2">
+                                                {relatedFlights.length} flight{relatedFlights.length !== 1 ? 's' : ''} recorded
+                                            </div>
+                                            <div className="space-y-2 max-h-48 overflow-y-auto">
+                                                {relatedFlights.map((flight, idx) => (
+                                                    <div key={idx} className="border-l-2 border-blue-500 pl-2 py-1 bg-gray-50 rounded-r">
+                                                        <div className="text-xs font-medium text-gray-800">
+                                                            {flight.date}
+                                                        </div>
+                                                        <div className="text-xs text-gray-600">
+                                                            {flight.from.name === point.name ? '→' : '←'} {flight.from.name === point.name ? flight.to.name : flight.from.name}
+                                                        </div>
+                                                        <div className="text-xs text-gray-500 mt-1">
+                                                            <span className="font-medium">Passengers:</span> {flight.passengers.join(', ')}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <a
+                                                href={`https://www.google.com/maps/search/${encodeURIComponent(point.name)}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="block mt-2 text-xs text-blue-600 hover:text-blue-800 underline"
+                                            >
+                                                View on Google Maps →
+                                            </a>
+                                        </div>
+                                    </Popup>
+                                </Marker>
+                            );
+                        })}
                     </MapContainer>
                 </div>
             )}
