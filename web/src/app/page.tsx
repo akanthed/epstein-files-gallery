@@ -5,9 +5,7 @@ import { GalleryManifest, ImageMeta } from '@/lib/types';
 import { MasonryGrid } from '@/components/MasonryGrid';
 import { ImageModal } from '@/components/ImageModal';
 import { Loader2 } from 'lucide-react';
-
-// Base path for GitHub Pages deployment
-const BASE_PATH = process.env.NODE_ENV === 'production' ? '/epstein-files-gallery' : '';
+import { BASE_PATH } from '@/lib/utils';
 
 const BATCH_SIZE = 40;
 

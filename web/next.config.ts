@@ -1,14 +1,14 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === 'production';
+const isGitHubPages = process.env.NEXT_PUBLIC_DEPLOY_TARGET === 'github';
 
 const nextConfig: NextConfig = {
   // Required for static export
   output: 'export',
 
-  // GitHub Pages serves from /repo-name/ (only in production)
-  basePath: isProd ? '/epstein-files-gallery' : '',
-  assetPrefix: isProd ? '/epstein-files-gallery/' : '',
+  // GitHub Pages serves from /repo-name/ (only for GitHub Pages)
+  basePath: isGitHubPages ? '/epstein-files-gallery' : '',
+  assetPrefix: isGitHubPages ? '/epstein-files-gallery/' : '',
 
   // Disable image optimization for static export
   images: {
