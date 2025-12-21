@@ -49,7 +49,7 @@ export default function Home() {
 
     return images.filter(img => {
       const ai = img.ai;
-      if (!ai) return false; // No AI data = excluded from filters
+      if (!ai) return false;
 
       switch (activeFilter) {
         case 'people':
@@ -150,7 +150,6 @@ export default function Home() {
               {/* AI Filter Buttons */}
               <div className="flex flex-wrap gap-2 mb-6">
                 {FILTERS.map(filter => {
-                  // Count for this filter
                   let count = 0;
                   if (filter.type === 'all') {
                     count = manifest?.stats.totalImages || 0;
