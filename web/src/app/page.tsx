@@ -92,9 +92,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-950 px-4 py-8 md:px-8">
       <header className="mb-8 md:mb-12 max-w-7xl mx-auto">
-        <h1 className="text-3xl md:text-5xl font-light text-zinc-900 dark:text-zinc-50 mb-4 tracking-tight">
+        <h1 className="text-3xl md:text-5xl font-light text-zinc-900 dark:text-zinc-50 mb-2 tracking-tight">
           Document Gallery
         </h1>
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm mb-6">
+          Images sourced from <a href="https://www.justice.gov/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-400 underline transition-colors">justice.gov</a>
+        </p>
         {manifest && (
           <div className="flex gap-6 text-sm text-zinc-500 font-mono border-t border-zinc-200 dark:border-zinc-800 pt-4">
             <div className="flex flex-col">
