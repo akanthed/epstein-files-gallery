@@ -80,8 +80,8 @@ export function FlightGlobe() {
                         lat: loc.lat,
                         lng: loc.lng,
                         name: loc.name,
-                        // User feedback: "red dot" hard to click, so make it bigger
-                        size: 0.8,
+                        // Fix: Reduce size from 0.8 (huge) to 0.15 degrees
+                        size: 0.15,
                         color: '#EF4444'
                     });
                 }
@@ -110,14 +110,23 @@ export function FlightGlobe() {
                 pointsMerge={true}
                 // Stop rotation when user interacts with an arc/point
                 onArcHover={(arc: any) => {
-                    setHoveredFlight(arc ? arc.flight : null);
-                    document.body.style.cursor = arc ? 'pointer' : 'default';
-                    if (arc) stopRotation();
+                    if (arc) {
+                        setHoveredFlight(arc.flight);
+                        document.body.style.cursor = 'pointer';
+                        stopRotation();
+                    } else {
+                        setHoveredFlight(null);
+                        document.body.style.cursor = 'default';
+                    }
                 }}
                 onArcClick={() => stopRotation()}
                 onPointHover={(point: any) => {
-                    document.body.style.cursor = point ? 'pointer' : 'default';
-                    if (point) stopRotation();
+                    if (point) {
+                        document.body.style.cursor = 'pointer';
+                        stopRotation();
+                    } else {
+                        document.body.style.cursor = 'default';
+                    }
                 }}
                 onPointClick={() => stopRotation()}
                 // Also stop rotation if user clicks anywhere on the globe (to drag)
