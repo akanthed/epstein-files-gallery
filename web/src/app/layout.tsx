@@ -17,7 +17,7 @@ const SITE_URL = "https://epsteinfiles.netlify.app";
 
 export const metadata: Metadata = {
   title: "Epstein Files Gallery | 5,600+ Official Court Documents & Photos",
-  description: "Browse the complete Jeffrey Epstein case archive. 5,600+ high-resolution images from official DOJ court documents, flight logs, and photos. Free, searchable, and fully transparent. The most comprehensive Epstein files database online.",
+  description: "Browse the complete Jeffrey Epstein case archive. 5,600+ high-resolution images from official DOJ court documents, flight logs, and photos. Free, searchable, and fully transparent.[...]
   keywords: [
     "Epstein files", "Epstein documents", "Jeffrey Epstein", "Epstein court documents",
     "Epstein photos", "Epstein evidence", "Epstein case files", "Epstein island",
@@ -122,6 +122,8 @@ export default function RootLayout({
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7796931804918205"
+             crossOrigin="anonymous"></script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
