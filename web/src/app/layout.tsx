@@ -58,8 +58,8 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      maxImagePreview: "large",
-      maxSnippet: -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   alternates: {
