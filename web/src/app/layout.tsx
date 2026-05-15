@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -17,7 +18,7 @@ const SITE_URL = "https://epsteinfiles.netlify.app";
 
 export const metadata: Metadata = {
   title: "Epstein Files Gallery | 5,600+ Official Court Documents & Photos",
-  description: "Browse the complete Jeffrey Epstein case archive. 5,600+ high-resolution images from official DOJ court documents, flight logs, and photos. Free, searchable, and fully transparent.[...]
+  description: "Browse the complete Jeffrey Epstein case archive. 5,600+ high-resolution images from official DOJ court documents, flight logs, and photos. Free, searchable, and fully transparent.",
   keywords: [
     "Epstein files", "Epstein documents", "Jeffrey Epstein", "Epstein court documents",
     "Epstein photos", "Epstein evidence", "Epstein case files", "Epstein island",
@@ -57,8 +58,8 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      maxImagePreview: "large",
+      maxSnippet: -1,
     },
   },
   alternates: {
@@ -107,7 +108,7 @@ const galleryJsonLd = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en" className="dark">
