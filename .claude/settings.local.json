@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"d:\\\\Projects\\\\epstein-files-gallery\" -Force | Format-Table Name, @{N=\"Type\";E={if\\($_.PSIsContainer\\){\"Dir\"}else{\"File\"}}})",
+      "PowerShell(New-Item -ItemType Directory -Force \"d:\\\\Projects\\\\epstein-files-gallery\\\\web\\\\src\\\\app\\\\privacy\")",
+      "PowerShell(New-Item -ItemType Directory -Force \"d:\\\\Projects\\\\epstein-files-gallery\\\\web\\\\src\\\\app\\\\about\")"
+    ]
+  }
+}

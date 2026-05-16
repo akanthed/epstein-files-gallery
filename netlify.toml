@@ -1,0 +1,11 @@
+[build]
+  base    = "web"
+  command = "npm run build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION                  = "20"
+  NEXT_PUBLIC_DEPLOY_TARGET     = ""
+
+# Netlify-managed redirects and SPA fallback
+# (granular caching + security is handled in web/public/_headers)

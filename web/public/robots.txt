@@ -1,11 +1,46 @@
-# Robots.txt for Epstein Files Gallery
-# Allow all crawlers to index everything
+# Robots.txt — Epstein Files Gallery
+# https://epsteinfiles.netlify.app
 
-User-agent: *
+# ── Major search engines: full access, no crawl-delay ─────────────────────────
+# Let Googlebot crawl everything; it ignores Crawl-delay anyway.
+# Disallowing /processed/images/ saves bandwidth (raw image files are not
+# standalone pages and are excluded from indexing via X-Robots-Tag headers).
+User-agent: Googlebot
+Allow: /
+Disallow: /processed/images/
+
+User-agent: Googlebot-Image
+Disallow: /processed/images/
+
+# Bingbot respects Crawl-delay
+User-agent: Bingbot
+Allow: /
+Disallow: /processed/images/
+Crawl-delay: 2
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 5
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 5
+
+# ── AdSense / Google Ads crawlers: must be allowed for monetization ────────────
+User-agent: Mediapartners-Google
 Allow: /
 
-# Sitemap location
-Sitemap: https://epsteinfiles.netlify.app/sitemap.xml
+User-agent: AdsBot-Google
+Allow: /
 
-# Optimize crawl rate
-Crawl-delay: 1
+User-agent: AdsBot-Google-Mobile
+Allow: /
+
+# ── Generic / unknown crawlers: slow them down ────────────────────────────────
+User-agent: *
+Allow: /
+Disallow: /processed/images/
+Crawl-delay: 10
+
+# ── Sitemap location ───────────────────────────────────────────────────────────
+Sitemap: https://epsteinfiles.netlify.app/sitemap.xml

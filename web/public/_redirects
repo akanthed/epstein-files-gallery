@@ -1,0 +1,15 @@
+# =============================================================================
+# NETLIFY _REDIRECTS — Epstein Files Gallery
+# =============================================================================
+
+# Redirect bare domain HTTP → HTTPS (Netlify handles this automatically,
+# but listing it here makes it explicit and prevents redirect chains).
+http://epsteinfiles.netlify.app/*  https://epsteinfiles.netlify.app/:splat  301!
+
+# Redirect common legacy / typo paths
+/documents        /          302
+/files            /          302
+/gallery          /          302
+
+# Fallback 404
+/*    /404/    404
